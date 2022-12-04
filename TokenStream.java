@@ -72,13 +72,15 @@ public class TokenStream {
 			t.setValue(t.getValue() + nextChar);
 			switch (nextChar) {
 			// TODO TO BE COMPLETED OR CHANGED WHERE NEEDED TO IMPLEMENT KAY
-			case '<':
+			//changed to match operators, only first character was there before
+			case '<=':
 				// <=
-			case '>':
+			case '>=':
 				// >=
-			case '=':
+			case '==':
 				// ==
-			case '!':
+			//case '!':
+			case '!=':
 				// !=
 				nextChar = readChar();
 				return t;
@@ -189,19 +191,32 @@ public class TokenStream {
 		// TODO TO BE COMPLETED
 		//should be good
 		return s.equals("while") 
-		|| s.quals("if)");
+		|| s.equals("if)");
+		|| s.equals("bool");
+		|| s.equals("else");
+		|| s.equals("integer");
+		|| s.equals("main");
 		//return false;
 	}
 
 	private boolean isSeparator(char c) {
 		// TODO TO BE COMPLETED
-		return false;
+		//MUST CHECK
+		return c.equals("(");
+		|| c.equals(")");
+		|| c.equals("{");
+		|| c.equals("}");
+		|| c.equals(";");
+		|| c.equals(",");
+		//return false;
 	}
 
 	private boolean isOperator(char c) {
 		// Checks for characters that start operators
 		// TODO TO BE COMPLETED
-		return false;
+		//MUST CHECK
+		return (c == '||'||c == '!'||c == '&&'||c == '!='||c == '=='||c == '>='||c == '<='||c == '<'||c == '>'||c == '/'||c == '*'||c == '-'||c == '+'||c == ':=');
+		//return false;
 	}
 
 	private boolean isLetter(char c) {
@@ -211,7 +226,7 @@ public class TokenStream {
 	private boolean isDigit(char c) {
 		// TODO TO BE COMPLETED
 		//should be good
-		return (c=='1'||c=='2');
+		return (c=='1'||c=='2'||c=='3'||c=='4'||c=='5'||c=='6'||c=='7'||c=='8'||c=='9');
 		//return false;
 	}
 	
