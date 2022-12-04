@@ -186,8 +186,11 @@ public class TokenStream {
 	}
 
 	private boolean isKeyword(String s) {
-		// TODO TO BE COMPLETED 
-		return false;
+		// TODO TO BE COMPLETED
+		//should be good
+		return s.equals("while") 
+		|| s.quals("if)");
+		//return false;
 	}
 
 	private boolean isSeparator(char c) {
@@ -207,7 +210,9 @@ public class TokenStream {
 
 	private boolean isDigit(char c) {
 		// TODO TO BE COMPLETED
-		return false;
+		//should be good
+		return (c=='1'||c=='2');
+		//return false;
 	}
 	
 	private boolean isWhiteSpace(char c) {
