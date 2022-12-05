@@ -57,6 +57,7 @@ public class TokenStream {
 			if (nextChar == '/') { // If / is followed by another /
 				// skip rest of line - it's a comment.
 				// TODO TO BE COMPLETED
+				nextChar = readChar();
 			} else {
 				// A slash followed by anything else must be an operator.
 				t.setValue("/");
@@ -73,14 +74,14 @@ public class TokenStream {
 			switch (nextChar) {
 			// TODO TO BE COMPLETED OR CHANGED WHERE NEEDED TO IMPLEMENT KAY
 			//changed to match operators, only first character was there before
-			case '<=':
+			case '<':
 				// <=
-			case '>=':
+			case '>':
 				// >=
-			case '==':
+			case '=':
 				// ==
 			//case '!':
-			case '!=':
+			case '!':
 				// !=
 				nextChar = readChar();
 				return t;
@@ -117,6 +118,7 @@ public class TokenStream {
 		if (isSeparator(nextChar)) {
 			t.setType("Separator");
 			// TODO TO BE COMPLETED
+
 			return t;
 		}
 
@@ -202,12 +204,14 @@ public class TokenStream {
 	private boolean isSeparator(char c) {
 		// TODO TO BE COMPLETED
 		//MUST CHECK
-		return c.equals("(");
+		/* return c.equals("(");
 		|| c.equals(")");
 		|| c.equals("{");
 		|| c.equals("}");
 		|| c.equals(";");
-		|| c.equals(",");
+		|| c.equals(","); 
+		*/
+		return (c == '(' || c == ")" || c == '{' || c == '}' || c == ';' || c == ',');
 		//return false;
 	}
 
