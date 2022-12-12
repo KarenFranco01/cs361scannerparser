@@ -93,7 +93,7 @@ public class TokenStream {
 					t.setValue(t.getValue() + nextChar);
 					return t;
 				}
-				else if(nextChar.isWhiteSpace()){
+				else if(isWhiteSpace(nextChar)){
 					return t;
 						}else{
 							t.setType("Other");
@@ -106,7 +106,7 @@ public class TokenStream {
 					t.setValue(t.getValue() + nextChar);
 					return t;
 				}
-				else if(nextChar.isWhiteSpace()){
+				else if((isWhiteSpace(nextChar))){
 					return t;
 						}else{
 							t.setType("Other");
@@ -131,7 +131,7 @@ public class TokenStream {
 					t.setValue(t.getValue() + nextChar);
 					return t;
 				}
-				else if(nextChar.isWhiteSpace()){
+				else if((isWhiteSpace(nextChar))){
 					return t;
 						}else{
 							t.setType("Other");
@@ -226,6 +226,8 @@ public class TokenStream {
 
 		return t;
 	}
+	return t;
+}
 
 	private char readChar() {
 		int i = 0;
