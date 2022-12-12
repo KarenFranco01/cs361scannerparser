@@ -98,7 +98,7 @@ public class TokenStream {
 						}else{
 							t.setType("Other");
 					}
-				return t;
+				//return t;
 			case '>':
 				// >=
 				nextChar = readChar();
@@ -136,6 +136,7 @@ public class TokenStream {
 						}else{
 							t.setType("Other");
 					}
+				return t;
 			case '|':
 				// Look for ||
 				nextChar = readChar();
@@ -146,7 +147,7 @@ public class TokenStream {
 				} else {
 					t.setType("Other");
 				}
-				return t;
+				//return t;
 			case '&':
 				// Look for &&
 				nextChar = readChar();
@@ -162,6 +163,7 @@ public class TokenStream {
 				nextChar = readChar();
 				return t;
 		}
+	}
 
 		// Then check for a separator
 		//separator can only be followed by another separator or space
@@ -226,8 +228,8 @@ public class TokenStream {
 
 		return t;
 	}
-	return t;
-}
+	
+
 
 	private char readChar() {
 		int i = 0;
@@ -311,3 +313,5 @@ public class TokenStream {
 		return isEof;
 	}
 }
+
+
