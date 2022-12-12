@@ -1,3 +1,5 @@
+import javax.rmi.ssl.SslRMIClientSocketFactory;
+
 // ConcreteSyntax.java
 
 // Implementation of the Recursive Descent Parser algorithm
@@ -126,8 +128,10 @@ public class ConcreteSyntax {
 			s = ifStatement();
 		else if (token.getValue().equals("while")) { // WhileStatement
 			// TODO TO BE COMPLETED
+			s = whileStatement();
 		} else if (token.getType().equals("Identifier")) { // Assignment
 			// TODO TO BE COMPLETED
+			s=assignment();
 		} else
 			throw new RuntimeException(SyntaxError("Statement"));
 		return s;
@@ -147,10 +151,16 @@ public class ConcreteSyntax {
 		Assignment a = new Assignment();
 		if (token.getType().equals("Identifier")) {
 			// TODO TO BE COMPLETED
+			a.target = new Variable();
+			a.target.id = token.getValue();
+			token = input.nextToken();
+			match("=");
+			a.source = expression();
+			match(";");
 		} else
 			throw new RuntimeException(SyntaxError("Identifier"));
 		return a;
-	}
+	} 
 
 	private Expression expression() {
 		// Expression --> Conjunction { || Conjunction }*
@@ -176,6 +186,10 @@ public class ConcreteSyntax {
 		while (token.getValue().equals("&&")) {
 			b = new Binary();
 			// TODO TO BE COMPLETED
+			b.term1 = e; //e is relation
+			b.op = new Operator(token.getValue());
+			token=input.nextToken();
+			b.term2= relation();
 			e = b;
 		}
 		return e;
@@ -189,10 +203,15 @@ public class ConcreteSyntax {
 		// TODO TO BE CHECKED AND COMPLETED. Do we have all the operators? 
 		while (token.getValue().equals("<") || token.getValue().equals("<=")
 				|| token.getValue().equals(">=")
+				|| token.getValue().equals(">")
 				|| token.getValue().equals("==")
 				|| token.getValue().equals("!=")) {
 			b = new Binary();
 			// TODO TO BE COMPLETED
+			b.term1 = e; 
+			b.op = new Operator(token.getValue());
+			token = input.nextToken();
+			b.term2 = addition();
 			e = b;
 		}
 		return e;
@@ -205,6 +224,11 @@ public class ConcreteSyntax {
 		e = term();
 		while (token.getValue().equals("+") || token.getValue().equals("-")) {
 			// TODO TO BE COMPLETED
+			b = new Binary();
+			b.term1 = e; 
+			b.op = new Operator(token.getValue());
+			token = input.nextToken();
+			b.term2 = term();
 		}
 		return e;
 	}
@@ -217,6 +241,10 @@ public class ConcreteSyntax {
 		while (token.getValue().equals("*") || token.getValue().equals("/")) {
 			b = new Binary();
 			// TODO TO BE COMPLETED
+			b.term1 = e; 
+			b.op = new Operator(token.getValue());
+			token = input.nextToken();
+			b.term2 = negation();
 			e = b;
 		}
 		return e;
@@ -268,14 +296,30 @@ public class ConcreteSyntax {
 	private Conditional ifStatement() {
 		// IfStatement --> if ( Expression ) Statement { else Statement }opt
 		Conditional c = new Conditional();
+		
 		// TODO TO BE COMPLETED
+	
 		return c;
+	
 	}
 
 	private Loop whileStatement() {
 		// WhileStatement --> while ( Expression ) Statement
 		Loop l = new Loop();
 		// TODO TO BE COMPLETED
+		Expression x = 
+		/*class Loop extends Statement {
+	// Loop = Expression test; Statement body
+
+	public Expression test;
+	public Statement body;
+
+	public String display(int level) {
+		String s = super.display(level);
+		String t = test.display(level + 1);
+		String b = body.display(level + 1);
+		return s + t + b;
+	}	*/
 		return l;
 	}
 
