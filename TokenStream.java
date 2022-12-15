@@ -258,14 +258,6 @@ public class TokenStream {
 
 	private boolean isSeparator(char c) {
 		// TODO TO BE COMPLETED
-		//MUST CHECK
-		/* return c.equals("(");
-		|| c.equals(")");
-		|| c.equals("{");
-		|| c.equals("}");
-		|| c.equals(";");
-		|| c.equals(","); 
-		*/
 		return (c == '(' || c == ')' || c == '{' || c == '}' || c == ';' || c == ',');
 		//return false;
 	}
@@ -273,8 +265,6 @@ public class TokenStream {
 	private boolean isOperator(char c) {
 		// Checks for characters that start operators
 		// TODO TO BE COMPLETED
-		//MUST CHECK
-		//return (c == '||'||c == '!'||c == '&&'||c == '!='||c == '=='||c == '>='||c == '<='||c == '<'||c == '>'||c == '/'||c == '*'||c == '-'||c == '+'||c == ':=');
 		return (c == '|'||c == '&'||c == '!'||c == '='||c == '<'||c == '>'||c == '/'||c == '*'||c == '-'||c == '+'||c == ':');
 		//return false;
 	}

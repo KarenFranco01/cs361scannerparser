@@ -1,4 +1,4 @@
-import javax.rmi.ssl.SslRMIClientSocketFactory;
+//import javax.rmi.ssl.SslRMIClientSocketFactory;
 
 // ConcreteSyntax.java
 
@@ -54,8 +54,12 @@ public class ConcreteSyntax {
 			// bypass " main { "
 			match(header[i]);
 			// add the required code
+			p.decpart = declarations();
+			p.body = statements();
+			match("}");
 		return p;
 	}
+
 
 	private Declarations declarations() {
 		// TODO TO BE COMPLETED 
@@ -64,7 +68,10 @@ public class ConcreteSyntax {
 		while (token.getValue().equals("integer")
 				|| token.getValue().equals("bool")) {
 			declaration(ds);
-		}
+		} 
+		/*while (token.getValue().equals("Declaration")){
+			declaration(ds);
+		}*/
 		return ds;
 	}
 
@@ -131,7 +138,7 @@ public class ConcreteSyntax {
 			s = whileStatement();
 		} else if (token.getType().equals("Identifier")) { // Assignment
 			// TODO TO BE COMPLETED
-			s=assignment();
+			s = assignment();
 		} else
 			throw new RuntimeException(SyntaxError("Statement"));
 		return s;
@@ -164,7 +171,7 @@ public class ConcreteSyntax {
 
 	private Expression expression() {
 		// Expression --> Conjunction { || Conjunction }*
-		Binary b;
+		Binary b; 
 		Expression e;
 		e = conjunction();
 		while (token.getValue().equals("||")) {
@@ -296,30 +303,30 @@ public class ConcreteSyntax {
 	private Conditional ifStatement() {
 		// IfStatement --> if ( Expression ) Statement { else Statement }opt
 		Conditional c = new Conditional();
-		
 		// TODO TO BE COMPLETED
-	
+		if(token.getValue().equals("if")){
+			token = input.nextToken();
+			match("(");
+			c.test = expression();
+			c.thenbranch = statement();
+			if(token.getValue().equals("else")) {
+				c.elsebranch = statement();
+			}
+		}
 		return c;
-	
 	}
 
 	private Loop whileStatement() {
 		// WhileStatement --> while ( Expression ) Statement
 		Loop l = new Loop();
 		// TODO TO BE COMPLETED
-		Expression x = 
-		/*class Loop extends Statement {
-	// Loop = Expression test; Statement body
-
-	public Expression test;
-	public Statement body;
-
-	public String display(int level) {
-		String s = super.display(level);
-		String t = test.display(level + 1);
-		String b = body.display(level + 1);
-		return s + t + b;
-	}	*/
+		if(token.getValue().equals("while")) {
+			token = input.nextToken();
+			match("(");
+			l.test = expression();
+			match(")");
+			l.body = statement();
+		}
 		return l;
 	}
 
