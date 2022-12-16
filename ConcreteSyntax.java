@@ -1,5 +1,3 @@
-//import javax.rmi.ssl.SslRMIClientSocketFactory;
-
 // ConcreteSyntax.java
 
 // Implementation of the Recursive Descent Parser algorithm
@@ -25,6 +23,7 @@ public class ConcreteSyntax {
 		token = input.nextToken(); // retrieve its first Token
 	}
 
+
 	// Method that prints a syntax error message
 	private String SyntaxError(String tok) {
 		String s = "Syntax error - Expecting: " + tok + " But saw: "
@@ -48,15 +47,20 @@ public class ConcreteSyntax {
 	public Program program() {
 		// TODO TO BE COMPLETED 
 		// Program --> main '{' Declarations Statements '}'
-		String[] header = { };
+		String[] header = {"main"};
 		Program p = new Program();
 		for (int i = 0; i < header.length; i++)
 			// bypass " main { "
 			match(header[i]);
+			if(token.getValue().equals("(")){
+				throw new RuntimeException(SyntaxError("main{"));
+			}else{
 			// add the required code
+			match("{");
 			p.decpart = declarations();
 			p.body = statements();
 			match("}");
+			}
 		return p;
 	}
 
@@ -161,7 +165,7 @@ public class ConcreteSyntax {
 			a.target = new Variable();
 			a.target.id = token.getValue();
 			token = input.nextToken();
-			match("=");
+			match(":=");
 			a.source = expression();
 			match(";");
 		} else
@@ -308,17 +312,22 @@ public class ConcreteSyntax {
 			token = input.nextToken();
 			match("(");
 			c.test = expression();
+			match(")");
 			c.thenbranch = statement();
-			if(token.getValue().equals("else")) {
+			token = input.nextToken();
+			if(token.getValue().equals("else |")) {
 				c.elsebranch = statement();
+			}else{
+				return c;
 			}
 		}
 		return c;
 	}
+	
 
 	private Loop whileStatement() {
 		// WhileStatement --> while ( Expression ) Statement
-		Loop l = new Loop();
+		Loop l = new Loop(); 
 		// TODO TO BE COMPLETED
 		if(token.getValue().equals("while")) {
 			token = input.nextToken();

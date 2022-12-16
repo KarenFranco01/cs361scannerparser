@@ -1,4 +1,9 @@
 main{
-  integer i;
-  i := 7;
+bool b1;
+bool b2;
+b1 := True;
+if (b1) 
+{ b2 := True;} 
+else 
+{b2 := False;}
 }

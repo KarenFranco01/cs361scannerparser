@@ -58,6 +58,8 @@ public class TokenStream {
 				// skip rest of line - it's a comment.
 				// TODO TO BE COMPLETED
 				//if this fails check with !eof refer to skipWhiteSpace()
+				t.setValue("//");
+				t.setType("Comment");
 				nextChar = readChar();
 			} else { 
 				// A slash followed by anything else must be an operator.
@@ -80,7 +82,7 @@ public class TokenStream {
 			nextChar = readChar();
 				if(nextChar == '=') {
 					t.setValue(t.getValue() + nextChar);
-					return t;
+					nextChar = readChar();
 				}
 				else {
 					t.setType("Other");
@@ -97,6 +99,7 @@ public class TokenStream {
 					return t;
 						}else{
 							t.setType("Other");
+							return t;
 					}
 				//return t;
 			case '>':
@@ -110,8 +113,8 @@ public class TokenStream {
 					return t;
 						}else{
 							t.setType("Other");
+							return t;
 					}
-				return t;
 			case '=':
 				// ==
 				nextChar = readChar();
@@ -122,7 +125,7 @@ public class TokenStream {
 				} else {
 					t.setType("Other");
 				}
-				return t;
+			return t;
 			//case '!':
 			case '!':
 				// !=
@@ -133,32 +136,32 @@ public class TokenStream {
 				}
 				else if((isWhiteSpace(nextChar))){
 					return t;
-						}else{
-							t.setType("Other");
+						}
+				else{
+					t.setType("Other");
+					return t;
 					}
-				return t;
+				//return t;
 			case '|':
 				// Look for ||
 				nextChar = readChar();
 				if (nextChar == '|') {
 					t.setValue(t.getValue() + nextChar);
 					nextChar = readChar();
-					return t;
 				} else {
 					t.setType("Other");
 				}
-				//return t;
+			return t;
 			case '&':
 				// Look for &&
 				nextChar = readChar();
 				if (nextChar == '&') {
 					t.setValue(t.getValue() + nextChar);
 					nextChar = readChar();
-					return t;
 				} else {
 					t.setType("Other");
 				}
-				return t;
+			return t;
 			default: // all other operators
 				nextChar = readChar();
 				return t;
@@ -168,21 +171,18 @@ public class TokenStream {
 		// Then check for a separator
 		//separator can only be followed by another separator or space
 		if (isSeparator(nextChar)) {
-			t.setType("Separator");
-			while (isSeparator(nextChar)) {
-				t.setValue(t.getValue() + nextChar);
-				nextChar = readChar();
-			}
 			// TODO TO BE COMPLETED
-			if (isEndOfToken(nextChar)) {
-				return t;
+ 			t.setValue(String.valueOf(nextChar));
+ 			t.setType("Separator");
+ 			nextChar = readChar();
+ 			return t;
 			} 
-		}
+		 
 
 		// Then check for an identifier, keyword, or literal (True or False).
 		if (isLetter(nextChar)) {
 			// Set to an identifier
-			t.setType("Identifier");
+			 t.setType("Identifier");
 			while ((isLetter(nextChar) || isDigit(nextChar))) {
 				t.setValue(t.getValue() + nextChar);
 				nextChar = readChar();
@@ -208,7 +208,7 @@ public class TokenStream {
 			// an operator, or a separator.
 			if (isEndOfToken(nextChar)) {// If token is valid, returns.
 				return t;
-			} 
+			}
 		}
 
 		t.setType("Other");
@@ -221,16 +221,16 @@ public class TokenStream {
 		while (!isEndOfToken(nextChar)) {
 			t.setValue(t.getValue() + nextChar);
 			nextChar = readChar();
+			nextChar =readChar();
 		}
+		
 		
 		// Finally check for whitespaces and bypass them
 		skipWhiteSpace();
-
+		
 		return t;
 	}
 	
-
-
 	private char readChar() {
 		int i = 0;
 		if (isEof){
