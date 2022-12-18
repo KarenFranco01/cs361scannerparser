@@ -58,9 +58,10 @@ public class TokenStream {
 				// skip rest of line - it's a comment.
 				// TODO TO BE COMPLETED
 				//if this fails check with !eof refer to skipWhiteSpace()
-				t.setValue("//");
-				t.setType("Comment");
-				nextChar = readChar();
+				while (!isEndOfLine(nextChar)){
+					nextChar = readChar();
+				}
+				return nextToken();
 			} else { 
 				// A slash followed by anything else must be an operator.
 				t.setValue("/");
@@ -127,9 +128,6 @@ public class TokenStream {
 					nextChar = readChar();
 					return t;
 				}
-				else{
-					t.setType("Other");
-					}
 				return t;
 			case '|':
 				// Look for ||
@@ -169,6 +167,9 @@ public class TokenStream {
 			 if(!isSeparator(nextChar)){
 				return t;          
 			}
+			if (isEndOfToken(nextChar)) {// If token is valid, returns.
+                return t;
+            }
 			} 
 		 
 
@@ -214,7 +215,6 @@ public class TokenStream {
 		while (!isEndOfToken(nextChar)) {
 			t.setValue(t.getValue() + nextChar);
 			nextChar = readChar();
-			nextChar =readChar();
 		}
 		
 		
@@ -245,8 +245,11 @@ public class TokenStream {
 	private boolean isKeyword(String s) {
 		// TODO TO BE COMPLETED
 		//should be good
-		return (s.equals("while") || s.equals("if)")|| s.equals("bool") || s.equals("else") || s.equals("integer")	|| s.equals("main"));
-		//return false;
+		if(s.equals("while") || s.equals("if")|| s.equals("bool") || s.equals("else") || s.equals("integer")	|| s.equals("main")){
+			return true;
+		}else {
+			return false;
+		}
 	}
 
 	private boolean isSeparator(char c) {
@@ -269,7 +272,12 @@ public class TokenStream {
 	}
 
 	private boolean isLetter(char c) {
-		return (c >= 'a' && c <= 'z' || c >= 'A' && c <= 'Z');
+		if(c >= 'a' && c <= 'z' || c >= 'A' && c <= 'Z'){
+			return true;
+		}
+		else{ 
+			return false;
+		}
 	}
 
 	private boolean isDigit(char c) {
@@ -282,15 +290,30 @@ public class TokenStream {
 	}
 	
 	private boolean isWhiteSpace(char c) {
-		return (c == ' ' || c == '\t' || c == '\r' || c == '\n' || c == '\f');
+		if (c == ' ' || c == '\t' || c == '\r' || c == '\n' || c == '\f'){
+			return true;
+		}
+		else{
+			return false;
+		}
 	}
 
 	private boolean isEndOfLine(char c) {
-		return (c == '\r' || c == '\n' || c == '\f');
+		if (c == '\r' || c == '\n' || c == '\f'){
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 
 	private boolean isEndOfToken(char c) { // Is the value a seperate token?
-		return (isWhiteSpace(nextChar) || isOperator(nextChar) || isSeparator(nextChar) || isEof);
+		if (isWhiteSpace(nextChar) || isOperator(nextChar) || isSeparator(nextChar) || isEof){
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 
 	private void skipWhiteSpace() {
