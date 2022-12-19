@@ -52,8 +52,8 @@ public class ConcreteSyntax {
 		for (int i = 0; i < header.length; i++)
 			// bypass " main { "
 			match(header[i]);
-			if(token.getValue().equals("(")){
-				throw new RuntimeException(SyntaxError("main{"));
+			if(!token.getValue().equals("{")){
+				throw new RuntimeException(SyntaxError("{"));
 			}else{
 			// add the required code
 			match("{");
@@ -167,6 +167,7 @@ public class ConcreteSyntax {
 			token = input.nextToken();
 			match(":=");
 			a.source = expression();
+			//token =input.nextToken();
 			match(";");
 		} else
 			throw new RuntimeException(SyntaxError("Identifier"));
@@ -312,16 +313,21 @@ public class ConcreteSyntax {
 			token = input.nextToken();
 			match("(");
 			c.test = expression();
+			//token = input.nextToken();
 			match(")");
+			match("{");
 			c.thenbranch = statement();
+			match("}");
 			token = input.nextToken();
-			if(token.getValue().equals("else |")) {
+			if(token.getValue().equals("else")) {
+				match("{");
 				c.elsebranch = statement();
+				match("}");
 			}else{
 				return c;
 			}
 		}
-		return c;
+			return c;
 	}
 	
 
